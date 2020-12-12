@@ -1,0 +1,10 @@
+<h1> Application: </h1>
+
+<%= form_tag '/applications' do %>
+ <p> Your Name: <%= text_field_tag :name %> </p>
+ <p> Street Address: <%= text_field_tag :street_address %> </p>
+ <p> City: <%= text_field_tag :city %> </p>
+ <p> State: <%= text_field_tag :state %> </p>
+ <p> Zip Code: <%= text_field_tag :zip_code %> </p>
+<%= submit_tag 'Submit Application' %> 
+<% end %>
