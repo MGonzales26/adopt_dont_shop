@@ -35,5 +35,14 @@ describe "New Application Page" do
       expect(page).to have_content(80026)
       expect(page).to have_content("In Progress")
     end
+
+    it "redirects if one of the fields is blank" do
+      visit "/applications/new"
+
+      click_on 'Submit Application'
+
+      expect(page).to have_content("Submission not accepted: Required information missing.")
+      expect(page).to have_button("Submit Application")
+    end
   end
 end
