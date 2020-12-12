@@ -8,7 +8,7 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    @application = Application.create!({
+    @application = Application.new({
       name: params[:name],
       street_address: params[:street_address],
       city: params[:city],
@@ -16,6 +16,11 @@ class ApplicationsController < ApplicationController
       zip_code: params[:zip_code],
       status: "In Progress"
       })
-      redirect_to "/applications/#{@application.id}"
+      if @application.save
+        redirect_to "/applications/#{@application.id}"
+      else
+        flash[:notice] = "Submission not accepted: Required information missing."
+        render :new
+      end
   end
 end
