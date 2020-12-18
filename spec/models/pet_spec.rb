@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Pet, type: :model do
   describe 'relationships' do
     it { should belong_to :shelter }
+    xit { should have_many :applications }
   end
 
   describe 'validations' do

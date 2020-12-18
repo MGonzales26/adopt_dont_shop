@@ -13,3 +13,12 @@
   <%= text_field_tag :search %>
 <%= submit_tag 'Search' %>
 <% end %>
+
+<% if @pets != nil %>
+  <% @pets.each do |pet| %>
+    <h3><%= pet.name %> 
+    <%= button_to "Add Pet", "/applications/", method: :put %></h3>
+  <% end %>
+<% end %> 
+
+
