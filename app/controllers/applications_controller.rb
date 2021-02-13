@@ -8,13 +8,19 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    @application = Application.create!({
-      name: params[:name],
-      street_address: params[:street_address],
-      city: params[:city],
-      state: params[:state],
-      zip_code: params[:zip_code]
-      })
+    @application = Application.new(app_params)
+    # require 'pry'; binding.pry
+    if @application.save
+      flash[:notice] = "Application was successfully Submitted"
       redirect_to application_path(@application)
+    else
+      flash[:notice] = "ERROR: Missing Field"
+      redirect_to new_application_path
+    end
+  end
+
+  private
+  def app_params
+    params.permit(:name, :street_address, :city, :state, :zip_code)
   end
 end
