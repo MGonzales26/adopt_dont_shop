@@ -11,7 +11,6 @@ RSpec.describe 'Pets index page' do
   end
 
   it "displays each pet in the system with attributes" do
-
     visit "/pets"
 
     expect(page).to have_content(@pet1.image)

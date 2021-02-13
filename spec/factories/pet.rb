@@ -10,7 +10,7 @@ FactoryBot.define do
       "Dog #{n}"
     end
 
-    adoptable true
+    adoptable { true }
     
     sex { Faker::Gender.binary_type }
 

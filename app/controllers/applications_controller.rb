@@ -13,9 +13,8 @@ class ApplicationsController < ApplicationController
       street_address: params[:street_address],
       city: params[:city],
       state: params[:state],
-      zip_code: params[:zip_code],
-      status: "In Progress"
+      zip_code: params[:zip_code]
       })
-      redirect_to "/applications/#{@application.id}"
+      redirect_to application_path(@application)
   end
 end
