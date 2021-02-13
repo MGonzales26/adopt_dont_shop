@@ -16,6 +16,12 @@
           <%= link_to 'Go to Pets', "/pets" %>
   </head><br>
 
+<% flash.each do |type, msg| %>
+  <div>
+    <%= msg %>
+  </div>
+<% end %>
+
   <body>
     <%= yield %>
   </body>
