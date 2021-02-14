@@ -3,6 +3,8 @@ require 'rails_helper'
 describe Pet, type: :model do
   describe 'relationships' do
     it { should belong_to :shelter }
+    it { should have_many :application_pets}
+    it { should have_many(:applications).through(:application_pets) }
   end
 
   describe 'validations' do
@@ -37,6 +39,26 @@ describe Pet, type: :model do
       expect(pet.sex).to eq('female')
       expect(pet.female?).to be(true)
       expect(pet.male?).to be(false)
+    end
+  end
+
+  describe 'Class methods' do
+    describe '::search_for_pet' do
+      it "returns a list of pets matching the name given" do
+        pet = create(:pet)
+
+        expect(Pet.search_for_pet(pet.name)).to eq ([pet])
+      end
+
+      it "returns more than one pet of the same name" do
+        pet1 = create(:pet, name: "Fido")
+        pet2 = create(:pet, name: "Fido")
+        pet3 = create(:pet, name: "Fido")
+
+        expected = [pet1, pet2, pet3]
+
+        expect(Pet.search_for_pet("Fido")).to eq(expected)
+      end
     end
   end
 end

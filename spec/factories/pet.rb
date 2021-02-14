@@ -12,7 +12,7 @@ FactoryBot.define do
 
     adoptable { true }
     
-    sex { Faker::Gender.binary_type }
+    sex { 1 }
 
     shelter
   end

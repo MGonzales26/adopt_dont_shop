@@ -1,7 +1,11 @@
 class ApplicationsController < ApplicationController
-  
+  before_action :set_application, only: [:show]
+
   def show
-    @application = Application.find(params[:id])
+    if params[:pet_name]
+      @pets = Pet.search_for_pet(params[:pet_name])
+    end
+    @application
   end
 
   def new
@@ -9,9 +13,8 @@ class ApplicationsController < ApplicationController
 
   def create
     @application = Application.new(app_params)
-    # require 'pry'; binding.pry
     if @application.save
-      flash[:notice] = "Application was successfully Submitted"
+      flash[:notice] = "Application was successfully started"
       redirect_to application_path(@application)
     else
       flash[:notice] = "ERROR: Missing Field"
@@ -20,6 +23,10 @@ class ApplicationsController < ApplicationController
   end
 
   private
+  def set_application
+    @application = Application.find(params[:id])
+  end
+
   def app_params
     params.permit(:name, :street_address, :city, :state, :zip_code)
   end

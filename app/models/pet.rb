@@ -1,5 +1,7 @@
 class Pet < ApplicationRecord
   belongs_to :shelter
+  has_many :application_pets
+  has_many :applications, through: :application_pets
   validates_presence_of :name, :description, :approximate_age, :sex
 
   validates :approximate_age, numericality: {
@@ -7,4 +9,8 @@ class Pet < ApplicationRecord
             }
 
   enum sex: [:female, :male]
+
+  def self.search_for_pet(name)
+    where(name: name)
+  end
 end

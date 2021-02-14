@@ -1,9 +1,34 @@
 <h1> Your Application </h1>
 
-<h3> Name of Applicant: <%= @application.name %></h3>
-<p> Street Address: <%= @application.street_address %></p>
-<p> City: <%= @application.city %></p>
-<p> State: <%= @application.state %></p>
-<p> Zip Code: <%= @application.zip_code %></p>
-<p> Pets Applied For: </p>
-<p> Status: <%= @application.status %></p>
+<body>
+  <section id="pet-search">
+    <h3>Search for pets to add to your application:</h3>
+      <div id="pet-search-bar">
+          <%= form_tag(application_path(@application), method: :get) do %>
+            <%= text_field_tag(:pet_name, params[:pet_name])%>
+            <%= submit_tag("Search")%>
+          <% end %>
+      </div>  
+
+      <ul id="pet-search-results">
+          <% if @pets %>
+            <% @pets.each do |pet|%>
+              <li id="pet-<%= pet.id %>">
+                <%= pet.name %>
+                <%= button_to "Adopt this Pet", application_path(@application, pet), method: :get %>
+              </li>
+            <% end %>
+          <% end %>
+      </ul>
+  </section>
+
+  <section id="application-<%= @application.id %>">
+    <h3> Name of Applicant: <%= @application.name %></h3>
+    <p> Street Address: <%= @application.street_address %></p>
+    <p> City: <%= @application.city %></p>
+    <p> State: <%= @application.state %></p>
+    <p> Zip Code: <%= @application.zip_code %></p>
+    <p> Pets Applied For: </p>
+    <p> Status: <%= @application.status %></p>
+  </section>
+</body>
