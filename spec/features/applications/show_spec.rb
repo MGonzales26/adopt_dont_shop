@@ -78,20 +78,67 @@ describe 'Application show page' do
         @app.pets << @pet 
 
         visit "/applications/#{@app.id}"
-
+        
         within("#application-pets-list") do
           expect(page).to have_content(@pet.name)
         end
-
+        
         expect(page).to have_field(:good_owner_statement)
       end
       
-      it "has a button to submit this application"
+      it "has a button to submit this application" do 
+        @app.pets << @pet 
+  
+        visit "/applications/#{@app.id}"
+
+        expect(page).to have_button("Submit Application")
+      end
     end
-    describe "returns to the show page when submitted"
-    it "changes status to pending"
-    it "lists the pets I want to adopt"
-    it "does not have a section to add more pets to this application"
+
+    describe "returns to the show page when submitted" do
+      it "changes status to pending" do
+        @app.pets << @pet 
+  
+        visit "/applications/#{@app.id}"
+
+        fill_in :good_owner_statement, with: "I love pets!"
+        
+        click_on("Submit Application")
+        expect(current_path).to eq(application_path(@app))
+        
+        expect(page).to have_content("Status: Pending")
+      end
+      
+      it "lists the pets I want to adopt" do
+        pet2 = create(:pet)
+        pet3 = create(:pet)
+        @app.pets << @pet 
+        @app.pets << pet2 
+        @app.pets << pet3 
+        
+        visit "/applications/#{@app.id}"
+        
+        within("#application-pets-list") do
+          expect(page).to have_content(@pet.name)
+          expect(page).to have_content(pet2.name)
+          expect(page).to have_content(pet3.name)
+        end
+      end
+      
+      it "does not have a section to add more pets to this application" do
+        @app.pets << @pet
+        visit "/applications/#{@app.id}"
+        
+        fill_in :good_owner_statement, with: "I love pets!"
+        
+        click_on("Submit Application")
+        expect(current_path).to eq(application_path(@app))
+        
+        expect(page).to_not have_content("Search for pets to add to your application:")
+        expect(page).to_not have_button("Search")
+        expect(page).to_not have_field(:good_owner_statement)
+      end
+    end
   end
 end
 

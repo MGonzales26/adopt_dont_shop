@@ -1,29 +1,31 @@
 <h1> Your Application </h1>
 
 <body>
-  <section id="pet-search">
-    <h3>Search for pets to add to your application:</h3>
-      <div id="pet-search-bar">
-          <%= form_tag(application_path(@application), method: :get) do %>
-            <%= text_field_tag(:pet_name, params[:pet_name])%>
-            <%= submit_tag("Search")%>
-          <% end %>
-      </div>  
-
-      <ul id="pet-search-results">
-          <% if @pets %>
-            <% @pets.each do |pet|%>
-              <li id="pet-<%= pet.id %>">
-                <%= pet.name %>
-                  <%= form_with url: application_path, method: :get do |f| %>
-                    <%= hidden_field_tag :pet_id, pet.id %>
-                    <%= f.submit 'Adopt this Pet' %>
-                  <% end %>
-              </li>
+  <% if @application.status != "Pending" %>
+    <section id="pet-search">
+      <h3>Search for pets to add to your application:</h3>
+        <div id="pet-search-bar">
+            <%= form_tag(application_path(@application), method: :get) do %>
+              <%= text_field_tag(:pet_name, params[:pet_name])%>
+              <%= submit_tag("Search")%>
             <% end %>
-          <% end %>
-      </ul>
-  </section>
+        </div>  
+
+        <ul id="pet-search-results">
+            <% if @pets %>
+              <% @pets.each do |pet|%>
+                <li id="pet-<%= pet.id %>">
+                  <%= pet.name %>
+                    <%= form_with url: application_path, method: :get do |f| %>
+                      <%= hidden_field_tag :pet_id, pet.id %>
+                      <%= f.submit 'Adopt this Pet' %>
+                    <% end %>
+                </li>
+              <% end %>
+            <% end %>
+        </ul>
+    </section>
+  <% end %>
 
   <section id="application-<%= @application.id %>">
     <h3> Name of Applicant: <%= @application.name %></h3>
@@ -40,11 +42,13 @@
     <p> Status: <%= @application.status %></p>
   </section>
 
-  <% if @application.pets != [] %>
+  <% if @application.pets != [] && @application.status != "Pending" %>
     <section id="submittal-section">
-      <%= form_with url: edit_application_path do |f| %>
-        <%= f.label :good_owner_statement, "Why would you make a good home?" %>
+      <%= form_with url: application_path, method: :patch do |f| %>
+        <%= f.label :good_owner_statement, "Tell us why you would make a good home:" %>
+        <br>
         <%= f.text_area :good_owner_statement %>
+        <br>
         <%= f.submit 'Submit Application' %>
       <% end %>
     </section>

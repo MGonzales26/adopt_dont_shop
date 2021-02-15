@@ -1,5 +1,5 @@
 class ApplicationsController < ApplicationController
-  before_action :set_application, only: [:show]
+  before_action :set_application, only: [:show, :update]
 
   def show
     if params[:pet_name]
@@ -23,6 +23,13 @@ class ApplicationsController < ApplicationController
       flash[:notice] = "ERROR: Missing Field"
       redirect_to new_application_path
     end
+  end
+
+  def update
+    @application.update(description: params[:description],
+                        status: "Pending"
+                       )
+    redirect_to application_path(@application)
   end
 
   private
