@@ -59,7 +59,7 @@ describe 'Application show page' do
       
       fill_in :pet_name, with: "#{@pet.name}"
       click_on("Search")
-
+      
       within("#pet-search") do
         expect(page).to have_content(@pet.name)
         expect(page).to have_button("Adopt this Pet")
@@ -72,5 +72,26 @@ describe 'Application show page' do
         expect(page).to have_content(@pet.name)
       end
     end
+    
+    describe "has a section to submit when pets are added" do
+      it "has a section I see an input to enter why I would make a good owner" do
+        @app.pets << @pet 
+
+        visit "/applications/#{@app.id}"
+
+        within("#application-pets-list") do
+          expect(page).to have_content(@pet.name)
+        end
+
+        expect(page).to have_field(:good_owner_statement)
+      end
+      
+      it "has a button to submit this application"
+    end
+    describe "returns to the show page when submitted"
+    it "changes status to pending"
+    it "lists the pets I want to adopt"
+    it "does not have a section to add more pets to this application"
   end
 end
+

@@ -39,4 +39,14 @@
       </section>
     <p> Status: <%= @application.status %></p>
   </section>
+
+  <% if @application.pets != [] %>
+    <section id="submittal-section">
+      <%= form_with url: edit_application_path do |f| %>
+        <%= f.label :good_owner_statement, "Why would you make a good home?" %>
+        <%= f.text_area :good_owner_statement %>
+        <%= f.submit 'Submit Application' %>
+      <% end %>
+    </section>
+  <% end %>
 </body>
