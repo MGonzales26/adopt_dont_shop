@@ -59,6 +59,14 @@ describe Pet, type: :model do
 
         expect(Pet.search_for_pet("Fido")).to eq(expected)
       end
+
+      it "returns a pet with a partial match" do
+        pet1 = create(:pet, name: "Fido")
+
+        expected = [pet1]
+
+        expect(Pet.search_for_pet("Fi")).to eq(expected)
+      end
     end
   end
 end

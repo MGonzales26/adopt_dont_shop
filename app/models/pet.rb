@@ -11,6 +11,6 @@ class Pet < ApplicationRecord
   enum sex: [:female, :male]
 
   def self.search_for_pet(name)
-    where(name: name)
+    where('name LIKE ?', "%#{name}%")
   end
 end
