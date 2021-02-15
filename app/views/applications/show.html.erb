@@ -42,15 +42,17 @@
     <p> Status: <%= @application.status %></p>
   </section>
 
-  <% if @application.pets != [] && @application.status != "Pending" %>
-    <section id="submittal-section">
-      <%= form_with url: application_path, method: :patch do |f| %>
-        <%= f.label :good_owner_statement, "Tell us why you would make a good home:" %>
-        <br>
-        <%= f.text_area :good_owner_statement %>
-        <br>
-        <%= f.submit 'Submit Application' %>
+  <section id="submittal-section">
+    <% if @application.status == "In Progress" %>
+      <% if @application.pets != [] %>
+          <%= form_with url: application_path, method: :patch do |f| %>
+            <%= f.label :good_owner_statement, "Tell us why you would make a good home:" %>
+            <br>
+            <%= f.text_area :good_owner_statement %>
+            <br>
+            <%= f.submit 'Submit Application' %>
+          <% end %>
       <% end %>
-    </section>
-  <% end %>
+    <% end %>
+  </section>
 </body>
