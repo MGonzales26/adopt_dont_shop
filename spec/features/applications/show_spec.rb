@@ -56,7 +56,7 @@ describe 'Application show page' do
 
     it "can add a searched for pet to the application" do
       visit "/applications/#{@app.id}"
-
+      
       fill_in :pet_name, with: "#{@pet.name}"
       click_on("Search")
 
@@ -64,10 +64,10 @@ describe 'Application show page' do
         expect(page).to have_content(@pet.name)
         expect(page).to have_button("Adopt this Pet")
       end
-
+      
       click_button("Adopt this Pet")
-      expect(current_path).to eq(application_path(@app, @pet))
-
+      expect(current_path).to eq(application_path(@app))
+      
       within("#application-#{@app.id}") do
         expect(page).to have_content(@pet.name)
       end

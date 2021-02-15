@@ -15,7 +15,10 @@
             <% @pets.each do |pet|%>
               <li id="pet-<%= pet.id %>">
                 <%= pet.name %>
-                <%= button_to "Adopt this Pet", application_path(@application, pet), method: :get %>
+                  <%= form_with url: application_path, method: :get do |f| %>
+                    <%= hidden_field_tag :pet_id, pet.id %>
+                    <%= f.submit 'Adopt this Pet' %>
+                  <% end %>
               </li>
             <% end %>
           <% end %>
@@ -28,7 +31,12 @@
     <p> City: <%= @application.city %></p>
     <p> State: <%= @application.state %></p>
     <p> Zip Code: <%= @application.zip_code %></p>
-    <p> Pets Applied For: </p>
+      <section id="application-pets-list">
+        <p> Pets Applied For: </p>
+          <% @application.pets.each do |pet| %>
+            <%= pet.name%>
+          <% end %>
+      </section>
     <p> Status: <%= @application.status %></p>
   </section>
 </body>

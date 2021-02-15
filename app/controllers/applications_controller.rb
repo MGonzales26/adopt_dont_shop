@@ -4,6 +4,9 @@ class ApplicationsController < ApplicationController
   def show
     if params[:pet_name]
       @pets = Pet.search_for_pet(params[:pet_name])
+    elsif params[:pet_id]
+      pet = Pet.find(params[:pet_id])
+      @application.pets << pet
     end
     @application
   end
