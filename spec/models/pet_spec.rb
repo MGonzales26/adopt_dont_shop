@@ -62,11 +62,60 @@ describe Pet, type: :model do
 
       it "returns a pet with a partial match" do
         pet1 = create(:pet, name: "Fido")
-
+        
         expected = [pet1]
-
+        
         expect(Pet.search_for_pet("Fi")).to eq(expected)
+      end
+      
+      it "doesn't care about case" do
+        pet1 = create(:pet, name: "Fido")
+        pet2 = create(:pet, name: "FIdO")
+
+        expected = [pet1, pet2]
+        
+        expect(Pet.search_for_pet("fi")).to eq(expected)
+        expect(Pet.search_for_pet("fI")).to eq(expected)
+        expect(Pet.search_for_pet("FI")).to eq(expected)
+      end
+    end
+  end
+
+  describe "Instance Methods" do
+    describe "#approve_pet" do
+      xit "changes the pets approved status to true" do
+        pet = create(:pet)
+
+        expect(pet.approved).to eq(false)
+        expect(pet.approve_pet).to eq(true)
+      end
+
+      it "changes the application pet approved status to approved" do
+        app = create(:application)
+        pet = create(:pet)
+        app.pets << pet
+        
+        pet.approve_pet(app.id, 1)
+        expect(pet.application_pets[0].approval).to eq("approved")
+      end
+      
+      it "changes the application pet approved status to rejected" do
+        app = create(:application)
+        pet = create(:pet)
+        app.pets << pet
+        
+        pet.approve_pet(app.id, 2)
+        expect(pet.application_pets[0].approval).to eq("rejected")
+      end
+
+      it "has an approval that is tbd" do
+        app = create(:application)
+        pet = create(:pet)
+        app.pets << pet
+        
+        expect(pet.application_pets[0].approval).to eq("tbd")
       end
     end
   end
 end
+

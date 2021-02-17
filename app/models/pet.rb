@@ -11,6 +11,11 @@ class Pet < ApplicationRecord
   enum sex: [:female, :male]
 
   def self.search_for_pet(name)
-    where('name LIKE ?', "%#{name}%")
+    where('lower(name) LIKE ?', "%#{name.downcase}%")
+  end
+
+  def approve_pet(id, approval)
+    application_pets.where(application_id: id, pet_id: self.id)
+    .update(approval: approval.to_i)
   end
 end
