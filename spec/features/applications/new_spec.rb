@@ -25,7 +25,7 @@ describe "New Application Page" do
       fill_in :city, with: "Denver"
       fill_in :state, with: "Colorado"
       fill_in :zip_code, with: 80026
-
+      
       click_on 'Submit Application'
 
       expect(page).to have_content("Megan")

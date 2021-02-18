@@ -5,7 +5,7 @@
     <section id="pet-search">
       <h3>Search for pets to add to your application:</h3>
         <div id="pet-search-bar">
-            <%= form_tag(application_path(@application), method: :get) do %>
+            <%= form_with url: application_path(@application), method: :get, local: true do %>
               <%= text_field_tag(:pet_name, params[:pet_name])%>
               <%= submit_tag("Search")%>
             <% end %>
@@ -16,10 +16,7 @@
               <% @pets.each do |pet|%>
                 <li id="pet-<%= pet.id %>">
                   <%= pet.name %>
-                    <%= form_with url: application_path, method: :get do |f| %>
-                      <%= hidden_field_tag :pet_id, pet.id %>
-                      <%= f.submit 'Adopt this Pet' %>
-                    <% end %>
+                    <%= button_to "Adopt this Pet", application_path, method: :get, local: true, params: { pet_id: pet.id } %>
                 </li>
               <% end %>
             <% end %>
@@ -45,7 +42,7 @@
   <section id="submittal-section">
     <% if @application.status == "In Progress" %>
       <% if @application.pets != [] %>
-          <%= form_with url: application_path, method: :patch do |f| %>
+          <%= form_with url: application_path, method: :patch, local: true do |f| %>
             <%= f.label :good_owner_statement, "Tell us why you would make a good home:" %>
             <br>
             <%= f.text_area :good_owner_statement %>

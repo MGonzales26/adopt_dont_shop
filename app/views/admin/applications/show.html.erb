@@ -12,16 +12,8 @@
           <h2> <%= pet.name %> has been rejected for <%= @application.name %> </h2>
         <% end %>  
       <% else %>
-        <%= form_with url: admin_application_path, method: :get do |f| %>
-          <%= hidden_field_tag :pet_id, pet.id %>
-          <%= hidden_field_tag :approval, 1 %>
-          <%= f.submit 'Approve Pet' %>
-        <% end %>
-        <%= form_with url: admin_application_path, method: :get do |f| %>
-          <%= hidden_field_tag :pet_id, pet.id %>
-          <%= hidden_field_tag :approval, 2 %>
-          <%= f.submit 'Reject Pet' %>
-        <% end %>
+        <%= button_to 'Approve Pet', admin_application_path(@application), method: :get, local: true, params: { pet_id: pet.id, approval: 1 } %>
+        <%= button_to 'Reject Pet', admin_application_path(@application), method: :get, local: true, params: { pet_id: pet.id, approval: 2 } %>
       <% end %>
     </section>
   <% end%>

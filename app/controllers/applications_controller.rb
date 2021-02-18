@@ -7,7 +7,6 @@ class ApplicationsController < ApplicationController
     elsif params[:pet_id]
       pet = Pet.find(params[:pet_id])
       @application.pets << pet
-      render :show
     end
     @application
   end

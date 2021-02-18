@@ -83,20 +83,13 @@ describe Pet, type: :model do
 
   describe "Instance Methods" do
     describe "#approve_pet" do
-      xit "changes the pets approved status to true" do
-        pet = create(:pet)
-
-        expect(pet.approved).to eq(false)
-        expect(pet.approve_pet).to eq(true)
-      end
-
       it "changes the application pet approved status to approved" do
         app = create(:application)
         pet = create(:pet)
         app.pets << pet
         
         pet.approve_pet(app.id, 1)
-        expect(pet.application_pets[0].approval).to eq("approved")
+        expect(pet.application_pets.first.approval).to eq("approved")
       end
       
       it "changes the application pet approved status to rejected" do
@@ -106,6 +99,7 @@ describe Pet, type: :model do
         
         pet.approve_pet(app.id, 2)
         expect(pet.application_pets[0].approval).to eq("rejected")
+        expect(pet.application_pets[0].rejected?).to eq(true)
       end
 
       it "has an approval that is tbd" do
