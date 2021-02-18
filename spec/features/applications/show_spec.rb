@@ -45,12 +45,44 @@ describe 'Application show page' do
         pet = create(:pet, name: "Fido")
 
         visit "/applications/#{@app.id}"
-
+        
         fill_in :pet_name, with: "Fido"
         click_on("Search")
         expect(current_path).to eq application_path(@app)
-
+        
         expect(page).to have_content(pet.name)
+      end
+      
+      it "does not show the submit button if there are no pets" do
+        visit "/applications/#{@app.id}"
+        
+        expect(page).to_not have_content("Tell us why you would make a good home:")
+        expect(page).to_not have_button("Submit Application")
+        
+        fill_in :pet_name, with: "#{@pet.name}"
+        click_on("Search")
+        click_on("Adopt this Pet")
+        expect(current_path).to eq(application_path(@app))
+        
+        expect(page).to have_content("Tell us why you would make a good home:")
+        expect(page).to have_button("Submit Application")
+      end
+      
+      it "shows pets with partially matching search" do
+        pet1 = create(:pet, name: "Fluff")
+        pet2 = create(:pet, name: "Fluffy")
+        pet3 = create(:pet, name: "Barroness Fluffers")
+        pet4 = create(:pet, name: "Mr. Fluffy Flufferton")
+        
+        visit "/applications/#{@app.id}"
+        
+        fill_in :pet_name, with: "Fluff"
+        click_on("Search")
+
+        expect(page).to have_content(pet1.name)
+        expect(page).to have_content(pet2.name)
+        expect(page).to have_content(pet3.name)
+        expect(page).to have_content(pet4.name)
       end
     end
 

@@ -1,0 +1,21 @@
+<h1> <%= @application.name%>'s Application</h1>
+
+<body>
+  <div id="admin-pet-list">
+  <% @application.pets.each do |pet| %>
+    <section id="admin-application-pet-<%= pet.id %>">
+      <h3><%= pet.name %></h3>
+      <% if @application_pet%>
+        <% if @application_pet.approval == "approved" %>
+          <h2> <%= pet.name %> has been approved for <%= @application.name %> </h2>
+        <% elsif @application_pet.approval == "rejected" %>
+          <h2> <%= pet.name %> has been rejected for <%= @application.name %> </h2>
+        <% end %>  
+      <% else %>
+        <%= button_to 'Approve Pet', admin_application_path(@application), method: :get, local: true, params: { pet_id: pet.id, approval: 1 } %>
+        <%= button_to 'Reject Pet', admin_application_path(@application), method: :get, local: true, params: { pet_id: pet.id, approval: 2 } %>
+      <% end %>
+    </section>
+  <% end%>
+  </div>
+</body>
