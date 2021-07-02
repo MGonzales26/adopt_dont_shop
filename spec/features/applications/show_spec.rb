@@ -61,5 +61,7 @@ describe 'Application show page' do
       expect(page).to have_button("Add Pet")
 
       click_on 'Add Pet'
+
+      # expect(current_path).to eq("/applications/#{app.id}")
     end
 end
